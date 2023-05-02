@@ -55,6 +55,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
+        # The place to add all new folders you add to the mother directory aka BASER_DIR
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
