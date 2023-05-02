@@ -22,6 +22,21 @@ class Lead(models.Model):
         # have a default value for that field
         # we have the forign key with leads allows the one to many relationship. 
         # where its hard to have an agent for each lead
+    def __str__(self):
+        """
+        This function helps the Query set of the Agent to returns the value of 
+        first and last name instead of just id number 
+        """
+        return f"{self.first_name} {self.last_name}"  
 
 class Agent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """
+        This function helps the Query set of the Agent to returns the value of 
+        Email address rather than id number 
+        """
+        return self.user.email
+
+    

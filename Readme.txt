@@ -38,7 +38,8 @@ after any changes in the modles use
 
 # Example format of the models is as such
 
-# after any changes in the modles use python manage.py makemigrations
+# after any changes in the modles use 
+`python manage.py makemigrations
 
 # class lead(models.Model):
 #     SOURCE_CHOICES = (
@@ -57,4 +58,17 @@ after any changes in the modles use
 #     profile_picture = models.ImageField(blank=True, null=True)
 #     special_files = models.FileField(blank=True, null=True)
 
+then 
+`python manage.py migrate
 
+VIMP : important section. python shell at 01:32:00
+
+$ python manage.py createsuperuser
+Username: ray8reaper
+Email address: ronyshabbo@gmail.com
+Password: Boy from hell with money
+Password (again):
+Superuser created successfully.
+
+
+today ended at 1:44:39 Django admin
