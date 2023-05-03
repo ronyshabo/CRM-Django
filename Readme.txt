@@ -71,4 +71,4 @@ Password (again):
 Superuser created successfully.
 
 
-today ended at 1:44:39 Django admin
+today ended at 2:22:01 Django admin
