@@ -55,7 +55,7 @@ ROOT_URLCONF = 'django_crm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR /'templates'],
         # The place to add all new folders you add to the mother directory aka BASER_DIR
         'APP_DIRS': True,
         'OPTIONS': {
