@@ -20,13 +20,9 @@
         </style>
     </head>
     <body>
-        <a href='/leads/create/'>Create a New Lead</a>
+        <a href="/leads">Go back to leads</a>
         <hr />
-        <h1>Here is a list of all of our leads!</h1>
-        {% for lead in leads %}
-            <div class="lead">
-                <a href="/leads/{{ lead.pk }}"> {{ lead.first_name }} {{ lead.last_name }}<a>
-            </div>
-            {% endfor %}
+        <h1>Here is the details of {{lead.first_name}}!</h1>
+        <p>This Lead's age : {{lead.age}}. Their Agent {{lead.agent}}</p>
     </body>
 </html>
