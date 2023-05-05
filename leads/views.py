@@ -35,25 +35,45 @@ def lead_create(request):
         form = LeadModelForm(request.POST)
         logging.info(f"Post request format is : {request.POST}")
         if form.is_valid():
-            logging.info(f"the cleaned data: {form.cleaned_data}")
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            age = form.cleaned_data['age']
-            agent = Agent.objects.first()
-            Lead.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                age=age,
-                agent=agent
-            )
+            form.save()
+        #This line replaces all those
+            # logging.info(f"the cleaned data: {form.cleaned_data}")
+            # first_name = form.cleaned_data['first_name']
+            # last_name = form.cleaned_data['last_name']
+            # age = form.cleaned_data['age']
+            # agent = form.cleaned_data['agent']
+            # Lead.objects.create(
+            #     first_name=first_name,
+            #     last_name=last_name,
+            #     age=age,
+            #     agent=agent
+            # )
             return redirect('/leads')
         else:
             logging.warning("Form is not valid")
-    else:
-        logging.warning("This is not a POST request")
 
            
     context = {
         "form": LeadModelForm()
     }
     return render( request, 'leads/lead_create.html',context)
+
+def lead_update(request,pk):
+    lead= Lead.objects.get(id=pk)
+    form = LeadModelForm(instance=lead)
+    if request.method == "POST":
+        form = LeadModelForm(request.POST,instance=lead)
+        if form.is_valid():
+            logging.info(f"the cleaned data: {form.cleaned_data}")
+            lead.save()
+            return redirect('/leads')
+    context = {
+        "form": form,
+        "lead": lead
+    }
+    return render( request, 'leads/lead_update.html',context)
+
+def lead_delete(request,pk):
+    lead = Lead.objects.get(id=pk)
+    lead.delete()
+    return redirect('/leads')

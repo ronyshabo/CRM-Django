@@ -12,7 +12,7 @@
     <body>
         <a href="{% url 'leads:lead-list' %}">Go back to leads</a>
         <hr />
-        <h1>Create a new lead</h1>
+        <h1>Update {{ lead.first_name }} {{ lead.last_name }}'s information as a lead</h1>
         <form method="POST">
             {% csrf_token %} 
             {{form.as_p}} 

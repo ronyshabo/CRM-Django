@@ -71,6 +71,5 @@ Password (again):
 Superuser created successfully.
 
 
-today ended at 2:49:16 first part of the forms.
+today ended at 3:09:40 @ fixing urls.
 
-still needs to be done, fix how create a lead page doesn't have the Agent drop menue yet.

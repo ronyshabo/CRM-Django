@@ -9,7 +9,7 @@ class User(AbstractUser):
         This function helps the Query set of the User to returns the value of 
        information about them 
         """
-        return (f"{self.username},  FN: {self.first_name},  LN: {self.last_name}")
+        return (f" -{self.username}, - FN: {self.first_name}, -LN: {self.last_name}")
     # In the future if you wnat to add a new model to the db:
     # cellphone_number = models.CharField(max_length=15) 
     #migrate and that would be it
