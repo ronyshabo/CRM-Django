@@ -1,7 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Lead,Agent
-from .forms import LeadForm, LeadModelForm
+from .forms import LeadForm,LeadModelForm
+import logging
+
+logging.basicConfig(
+    filename="logs/views.log",
+    level=logging.DEBUG,
+    format="%(module)s : %(levelname)s:  %(message)s - : %(asctime)s",
+)
 
 def Lead_list(request):
     leads = Lead.objects.all()
@@ -22,13 +29,13 @@ def lead_detail(request,pk):
     return render( request, 'leads/lead_detail.html',context)
 
 def lead_create(request):
-    print("reaching the lead create func")
-    print(request.POST)
+    logging.info("reaching the lead create func")
     form = LeadModelForm()
     if request.method == "POST":
         form = LeadModelForm(request.POST)
+        logging.info(f"Post request format is : {request.POST}")
         if form.is_valid():
-            print(f"the cleaned data: {form.cleaned_data}")
+            logging.info(f"the cleaned data: {form.cleaned_data}")
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             age = form.cleaned_data['age']
@@ -40,7 +47,13 @@ def lead_create(request):
                 agent=agent
             )
             return redirect('/leads')
+        else:
+            logging.warning("Form is not valid")
+    else:
+        logging.warning("This is not a POST request")
+
+           
     context = {
-        "form": LeadForm()
+        "form": LeadModelForm()
     }
     return render( request, 'leads/lead_create.html',context)
