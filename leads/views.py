@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Lead,Agent
 from .forms import LeadForm,LeadModelForm
+# With the TemplateView class. we can add all 4 CRUD methods to this class. eg: UpdateView
+from django.views.generic import TemplateView, ListView, DetailView
+
 import logging
 
 logging.basicConfig(
@@ -10,6 +13,20 @@ logging.basicConfig(
     format="%(module)s : %(levelname)s:  %(message)s - : %(asctime)s",
 )
 
+
+class LandingPageView(TemplateView):
+    template_name="landing.html"
+    
+
+def landing_page(request):
+     return render( request, 'landing.html')
+
+
+class LeadListView(ListView):
+    template_name = " leads/lead_list.html"
+    queryset = Lead.objects.all()
+    context_object_name = "leads"
+    
 def Lead_list(request):
     leads = Lead.objects.all()
     context = {
@@ -17,9 +34,10 @@ def Lead_list(request):
     }
     return render( request, 'leads/lead_list.html',context)
 
-def secondpage(request):
-
-    return render( request, 'secondpage.html')
+class LeadDetailView(DetailView):
+    template_name = "leads/lead_detail.html"
+    queryset = Lead.objects.all()
+    context_object_name = "lead"
 
 def lead_detail(request,pk):
     lead= Lead.objects.get(id=pk)
@@ -77,3 +95,9 @@ def lead_delete(request,pk):
     lead = Lead.objects.get(id=pk)
     lead.delete()
     return redirect('/leads')
+
+
+
+def secondpage(request):
+
+    return render( request, 'secondpage.html')
