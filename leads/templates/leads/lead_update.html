@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
 <section class="text-gray-600 body-font overflow-hidden">
@@ -16,15 +15,15 @@
           <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
             Reviews
           </a>
-          <a href="/leads/{{ lead.pk }}/update" class="mt-3 flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
+          <a href="/leads/{{ lead.pk }}/update" class=" flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
             Update
           </a>
         </div>
         <form method="POST">
             {% csrf_token %} 
-            {{form.as_p}} 
+            {{form.as_p}}
             <button type="submit">Submit</button>
-        </form>
+          </form>
         <a href="{% url 'leads:lead-delete' lead.pk %}" class="w-1/2 flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</a>
     </div>
       <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">

@@ -71,5 +71,5 @@ Password (again):
 Superuser created successfully.
 
 
-today ended at 3:09:40 @ fixing urls.
+today ended at 3:46:53 @ fixing urls.
 
