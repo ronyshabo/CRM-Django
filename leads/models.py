@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 # To see the User Model Check the Abstract User model up here
 # Recommended to create your own User model instead of the one provided by django
@@ -53,4 +54,14 @@ class Agent(models.Model):
         """
         return f"{self.user.username} first name: {self.user.first_name} last name: {self.user.last_name}"
 
-    
+#Signals will allow for events to listedn to other events and allow specific things to happen such as. 
+def post_user_created_signal(sender, instance, created, **kwargs):
+    """
+    This function will return the 'sender of the event',
+    'the instance' that is -ray8reaper, - FN: Rony, -LN: Shabo in our example
+    'created' is the flag/marker that something was sent to the db. 
+    """
+    if created:
+        UserProfile.objects.create(user==instance)
+
+post_save.connect(post_user_created_signal,sender=User)
