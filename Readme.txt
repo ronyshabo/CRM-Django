@@ -17,7 +17,7 @@ and started the project
 
 
 
-always remember, when you want to start working on django, yopu have to start an app, containerized module of code.
+always remember, when you want to start working on django, you have to start an app, containerized module of code.
 responsible for a single aspect of the project. 
 eg: user, billing, such
 
@@ -65,11 +65,13 @@ VIMP : important section. python shell at 01:32:00
 
 $ python manage.py createsuperuser
 Username: ray8reaper
-Email address: ronyshabbo@gmail.com
+Email address: ray8reaper@gmail.com
 Password: Boy from hell with money
 Password (again):
 Superuser created successfully.
 
 
-today ended at 4:34:42 @ the end of Authentication
+today ended at 5:18:39 @ the beginning of agent detail
+check on why agent page not showing agents.
+
 
