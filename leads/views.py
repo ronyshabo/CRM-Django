@@ -133,10 +133,10 @@ class LeadDeleteView(LoginRequiredMixin,generic.DeleteView):
         return reverse('leads:lead-list')
 
 
-# def lead_delete(request,pk):
-    # lead = Lead.objects.get(id=pk)
-    # lead.delete()
-    # return redirect('/leads')
+    def lead_delete(request,pk):
+        lead = Lead.objects.get(id=pk)
+        lead.delete()
+        return redirect('/leads') 
 
 
 
