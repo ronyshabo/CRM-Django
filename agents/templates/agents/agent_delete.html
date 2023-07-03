@@ -6,21 +6,8 @@
         <hr />
         <hr />
         <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
         <h1>Are you sure you want to delete this Agent?</h1>
-         <form method="DELETE">
+         <form method="post">
             {% csrf_token %} 
             {{form.as_p}} 
             <button type="submit">Submit</button>
