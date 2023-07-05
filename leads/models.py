@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 # Recommended to create your own User model instead of the one provided by django
 
 class User(AbstractUser):
+    is_organisor = models.BooleanField(default=True)
+    is_agent = models.BooleanField(default=False)
     def __str__(self):
         """
         This function helps the Query set of the User to returns the value of 
@@ -62,6 +64,6 @@ def post_user_created_signal(sender, instance, created, **kwargs):
     'created' is the flag/marker that something was sent to the db. 
     """
     if created:
-        UserProfile.objects.create(user==instance)
+        UserProfile.objects.create(user=instance)
 
 post_save.connect(post_user_created_signal,sender=User)

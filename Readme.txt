@@ -70,6 +70,9 @@ Password: Boy from hell with money
 Password (again):
 Superuser created successfully.
 
+Agent.1,2,3,4 
+Password: Boy from hell with money
+Have access to Admin tab, but cant make any changes
 
 today ended at 5:18:39 @ the beginning of agent detail
 check on why agent page not showing agents.
