@@ -17,12 +17,19 @@ class User(AbstractUser):
     # cellphone_number = models.CharField(max_length=15) 
     #migrate and that would be it
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+    
 class Lead(models.Model):
 # A representation of db schemas
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     age = models.IntegerField(default=0)
-    agent = models.ForeignKey("Agent", on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
         # if the agent is deleted we will delete the lead.
         # agent = models.ForeignKey("Agent", on_delete=models.SET_NULL)
         # this only works if Null is available
@@ -37,12 +44,6 @@ class Lead(models.Model):
         """
         return f"{self.first_name} {self.last_name}"  
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
-    
 
 
 class Agent(models.Model):
