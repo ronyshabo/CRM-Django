@@ -74,6 +74,11 @@ Agent.1,2,3,4
 Password: Boy from hell with money
 Have access to Admin tab, but cant make any changes
 
+*******************
+around 6:07:00 is password reset section. 
+check the uid64 section for it to work
+*******************
+
 today ended at 5:18:39 @ the beginning of agent detail
 check on why agent page not showing agents.
 
