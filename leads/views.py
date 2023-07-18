@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.mixins import OrganisorAndLoginRequiredMixin
 from django.http import HttpResponse
 from .models import Lead,Agent
-from .forms import LeadForm,LeadModelForm, CustomUserCreationForm
+from .forms import LeadForm,LeadModelForm, CustomUserCreationForm, AssignAgentForm
 # With the TemplateView class. we can add all 4 CRUD methods to this class. eg: UpdateView
 from django.views import generic
 
@@ -24,7 +24,12 @@ class SignupView(generic.CreateView):
         return reverse("login")
 
 class LandingPageView(generic.TemplateView):
-    template_name="landing.html"
+    template_name = "landing.html"
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #         return redirect("dashboard")
+    #     return super().dispatch(request, *args, **kwargs)
     
 
 # def landing_page(request):
@@ -32,29 +37,24 @@ class LandingPageView(generic.TemplateView):
 
 
 class LeadListView(LoginRequiredMixin, generic.ListView):
-    template_name = " leads/lead_list.html"
+    template_name = "leads/lead_list.html"
     context_object_name = "leads"
 
     def get_queryset(self):
-        ''' 
-        Query set function, to help us locate the leads that have agents assigned to them.
-        '''
         user = self.request.user
+        print(f"Organization {user.is_organisor}")
+        # initial queryset of leads for the entire organisation
         if user.is_organisor:
-            #if the user is an organisor we will have a user profile for them
             queryset = Lead.objects.filter(
-                organisation=user.userprofile,
+                organisation=user.userprofile, 
                 agent__isnull=False
-                )
+            )
         else:
-            # if not they are def. an agent so we filter by our org
             queryset = Lead.objects.filter(
-                organisation=user.agent.organisation,
+                # organisation=user.agent.organisation, 
                 agent__isnull=False
-                )
-            #This line here, would make sure the user that is logged in 
-            # is the same as the user you are filtiring for
-            #by extending agent__ to it's user
+            )
+            # filter for the agent that is logged in
             queryset = queryset.filter(agent__user=user)
         return queryset
 
@@ -85,6 +85,7 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
 class LeadDetailView(LoginRequiredMixin,generic.DetailView):
     template_name = "leads/lead_detail.html"
     context_object_name = "lead"
+
     def get_queryset(self):
         user = self.request.user
         if user.is_organisor:
@@ -193,7 +194,26 @@ class LeadDeleteView(OrganisorAndLoginRequiredMixin,generic.DeleteView):
         lead.delete()
         return redirect('/leads') 
 
+class AssignAgentView(OrganisorAndLoginRequiredMixin, generic.FormView):
+    template_name = "leads/assign_agent.html"
+    form_class = AssignAgentForm
 
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(AssignAgentView, self).get_form_kwargs(**kwargs)
+        kwargs.update({
+            "request": self.request
+        })
+        return kwargs
+        
+    def get_success_url(self):
+        return reverse("leads:lead-list")
+
+    def form_valid(self, form):
+        agent = form.cleaned_data["agent"]
+        lead = Lead.objects.get(id=self.kwargs["pk"])
+        lead.agent = agent
+        lead.save()
+        return super(AssignAgentView, self).form_valid(form)
 
 def secondpage(request):
 
