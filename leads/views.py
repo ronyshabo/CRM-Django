@@ -36,18 +36,43 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "leads"
 
     def get_queryset(self):
+        ''' 
+        Query set function, to help us locate the leads that have agents assigned to them.
+        '''
         user = self.request.user
         if user.is_organisor:
             #if the user is an organisor we will have a user profile for them
-            queryset = Lead.objects.filter(organisation=user.userprofile)
+            queryset = Lead.objects.filter(
+                organisation=user.userprofile,
+                agent__isnull=False
+                )
         else:
             # if not they are def. an agent so we filter by our org
-            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = Lead.objects.filter(
+                organisation=user.agent.organisation,
+                agent__isnull=False
+                )
             #This line here, would make sure the user that is logged in 
             # is the same as the user you are filtiring for
             #by extending agent__ to it's user
             queryset = queryset.filter(agent__user=user)
         return queryset
+
+    def get_context_data(self,**kwargs):
+        '''
+        This function helps devide the leads into 2 groups, leads with agents. and leads without agents that are ready to be assigned
+        '''
+        user = self.request.user
+        context = super(LeadListView, self).get_context_data(**kwargs)
+        if user.is_organisor:
+            queryset = Lead.objects.filter(
+                organisation=user.userprofile,
+                agent__isnull=True
+                )
+            context.update({
+                "unassigned_leads":queryset
+            })
+        return context
     
     
 # def Lead_list(request):
