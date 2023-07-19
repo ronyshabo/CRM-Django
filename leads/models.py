@@ -30,6 +30,7 @@ class Lead(models.Model):
     age = models.IntegerField(default=0)
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey("Category",null=True, blank=True, on_delete=models.SET_NULL )
         # if the agent is deleted we will delete the lead.
         # agent = models.ForeignKey("Agent", on_delete=models.SET_NULL)
         # this only works if Null is available
@@ -56,6 +57,12 @@ class Agent(models.Model):
         Email address rather than id number 
         """
         return f"{self.user.username} first name: {self.user.first_name} last name: {self.user.last_name}"
+
+class Category(models.Model):
+    name = models.CharField(max_length=30) #eg: new, contacted, converted "to sales", un converted
+    organisation = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 #Signals will allow for events to listedn to other events and allow specific things to happen such as. 
 def post_user_created_signal(sender, instance, created, **kwargs):
