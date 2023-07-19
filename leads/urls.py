@@ -7,7 +7,9 @@ from .views import (secondpage,
     LeadDeleteView, 
     LandingPageView, 
     AssignAgentView,
-    CategoryListView
+    CategoryListView,
+    CategoryDetailView,
+    LeadCategoryUpdateView
 )
 # from .view import landing_page,Lead_list,lead_detail, lead_create,lead_update, lead_delete
 app_name = "leads"
@@ -22,4 +24,6 @@ urlpatterns = [
     path('create/',LeadCreateView.as_view(),name='lead-create'),
     path('landing-page/', LandingPageView.as_view(), name='landing-page'),
     path('categories/', CategoryListView.as_view(), name='category-list'),
+    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
+    path('<int:pk>/category/',LeadCategoryUpdateView.as_view(),name='lead-category-update'),
 ]

@@ -30,14 +30,14 @@ class Lead(models.Model):
     age = models.IntegerField(default=0)
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
-    category = models.ForeignKey("Category",null=True, blank=True, on_delete=models.SET_NULL )
+    category = models.ForeignKey("Category",related_name="leads" ,null=True, blank=True, on_delete=models.SET_NULL )
         # if the agent is deleted we will delete the lead.
         # agent = models.ForeignKey("Agent", on_delete=models.SET_NULL)
         # this only works if Null is available
-        # agent = models.ForeignKey("Agent", on_delete=models.SET_DEFAULT, default = "Something")
         # have a default value for that field
         # we have the forign key with leads allows the one to many relationship. 
         # where its hard to have an agent for each lead
+        # Related_name here = lead_set() in views in order to reverse look a raw that is associated with a forign key
     def __str__(self):
         """
         This function helps the Query set of the Agent to returns the value of 

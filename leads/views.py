@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.mixins import OrganisorAndLoginRequiredMixin
 from django.http import HttpResponse
 from .models import Lead,Agent, Category
-from .forms import LeadForm,LeadModelForm, CustomUserCreationForm, AssignAgentForm
+from .forms import LeadForm,LeadModelForm, CustomUserCreationForm, AssignAgentForm,LeadCategoryUpdateView
 # With the TemplateView class. we can add all 4 CRUD methods to this class. eg: UpdateView
 from django.views import generic
 
@@ -251,5 +251,37 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
             queryset = Category.objects.filter(
                 organisation=user.agent.organisation
             )
+        return queryset
+
+class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = "leads/category_detail.html"
+    context_object_name = "category"
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organisor:
+            queryset = Category.objects.filter(
+                organisation=user.userprofile
+            )
+        else:
+            queryset = Category.objects.filter(
+                organisation=user.agent.organisation
+            )
+        return queryset
+    
+    
+class LeadCategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "leads/lead_category_update.html"
+    form_class = LeadCategoryUpdateView
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organisor:
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
             queryset = queryset.filter(agent__user=user)
         return queryset
+
+    def get_success_url(self):
+        return reverse('leads:lead-detail', kwargs={"pk":self.get_object().id})
