@@ -46,10 +46,10 @@ class AgentCreateView( OrganisorAndLoginRequiredMixin,generic.CreateView):
         # agent.save()
         return super(AgentCreateView, self).form_valid(form)
 
-class AgentDetailView( OrganisorAndLoginRequiredMixin, generic.DetailView):
+class AgentDetailView(OrganisorAndLoginRequiredMixin, generic.DetailView):
     template_name = "agents/agent_detail.html"
-    context_object_name = "agents"
-    
+    context_object_name = "agent"
+
     def get_queryset(self):
         organisation = self.request.user.userprofile
         return Agent.objects.filter(organisation=organisation)

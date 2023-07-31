@@ -31,6 +31,11 @@ class Lead(models.Model):
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
     category = models.ForeignKey("Category",related_name="leads" ,null=True, blank=True, on_delete=models.SET_NULL )
+    description = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+
         # if the agent is deleted we will delete the lead.
         # agent = models.ForeignKey("Agent", on_delete=models.SET_NULL)
         # this only works if Null is available
